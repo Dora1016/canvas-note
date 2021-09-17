@@ -3,7 +3,11 @@
   padding: 0;
   box-sizing: border-box;
 }
+/* canvas是inline元素 */
 #canvas {
-  height: 100vh;
-  border: 1px solid red;
+  display: block;
+  /* 强行改宽高会进行拉伸，非常模糊 */
+  /* width: 100vw;
+  height: 100vh; */
+  /* border: 1px solid red; */
 }

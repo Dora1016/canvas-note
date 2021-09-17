@@ -8,27 +8,40 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <div id="canvas">
-      <script>
-        canvas.onclick = (e) => {
-          console.log(e);
+    <canvas id="canvas" height="100" width="100"></canvas>
+    <script>
+      // 这三句话得到页面文档的宽高，让canvas画板与其一致，记住body的高度与页面元素高度一致
+      let canvas = document.getElementById("canvas");
+      canvas.width = document.documentElement.clientWidth;
+      canvas.height = document.documentElement.clientHeight;
+      // 画线,解决了一个性能问题，比div快很多
+      let ctx = canvas.getContext("2d");
+
+      let painting = false;
+
+      ctx.fillStyle = "black";
+      ctx.strokeStyle = "none";
+
+      canvas.onmousedown = (e) => {
+        painting = true;
+      };
+
+      canvas.onmousemove = (e) => {
+        if (painting === true) {
           console.log(e.clientX);
           console.log(e.clientY);
-          // console调试大法
-          let div = document.createElement("div");
-          div.style.position = "absolute";
-          div.style.left = e.clientX + "px";
-          div.style.top = e.clientY + "px";
-          // div.style.border = "1px solid red";
-          div.style.width = "5px";
-          div.style.height = "5px";
-          div.style.marginLeft = "-3px";
-          div.style.marginTop = "-3px";
-          div.style.borderRadius = "50%";
-          div.style.backgroundColor = "black";
-          canvas.appendChild(div);
-        };
-      </script>
-    </div>
+          // ctx.fillRect(e.clientX - 3, e.clientY - 3, 8, 8); 画方形
+          ctx.beginPath();
+          ctx.arc(e.clientX, e.clientY, 6, 0, 2 * Math.PI);
+          ctx.stroke();
+          ctx.fill();
+        } else {
+          console.log("什么都不做");
+        }
+      };
+      canvas.onmouseup = (e) => {
+        painting = false;
+      };
+    </script>
   </body>
 </html>
